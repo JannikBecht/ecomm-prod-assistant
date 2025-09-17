@@ -4,7 +4,8 @@ packages = [
     "python-dotenv",
     "langchain_core",
     "streamlit",
-    "structlog"
+    "structlog",
+    "langchain_community"
 ]
 for pkg in packages:
     try:
