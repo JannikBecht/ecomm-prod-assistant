@@ -41,6 +41,7 @@ if st.button("🚀 Start Scraping"):
         for query in product_inputs:
             st.write(f"🔍 Searching for: {query}")
             results = flipkart_scraper.scrape_flipkart_products(query, max_products=max_products, review_count=review_count)
+            print(results)
             final_data.extend(results)
 
         unique_products = {}

@@ -7,6 +7,7 @@ from langchain_google_genai import GoogleGenerativeAIEmbeddings, ChatGoogleGener
 from langchain_groq import ChatGroq
 from prod_assistant.logger import GLOBAL_LOGGER as log
 from prod_assistant.exception.custom_exception import ProductAssistantException
+import asyncio
 
 
 class ApiKeyManager:
@@ -66,6 +67,8 @@ class ModelLoader:
         self.config = load_config()
         log.info("YAML config loaded", config_keys=list(self.config.keys()))
 
+    
+
     def load_embeddings(self):
         """
         Load and return embedding model from Google Generative AI.
@@ -73,11 +76,20 @@ class ModelLoader:
         try:
             model_name = self.config["embedding_model"]["model_name"]
             log.info("Loading embedding model", model=model_name)
-            return GoogleGenerativeAIEmbeddings(model=model_name,
-                                                google_api_key=self.api_key_mgr.get("GOOGLE_API_KEY")) #type: ignore
+
+            try:
+                asyncio.get_running_loop()
+            except RuntimeError:
+                asyncio.set_event_loop(asyncio.new_event_loop())
+
+            return GoogleGenerativeAIEmbeddings(
+                model=model_name,
+                google_api_key=self.api_key_mgr.get("GOOGLE_API_KEY")  # type: ignore
+            )
         except Exception as e:
             log.error("Error loading embedding model", error=str(e))
             raise ProductAssistantException("Failed to load embedding model", sys)
+
 
     def load_llm(self):
         """

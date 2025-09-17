@@ -90,7 +90,7 @@ class DataIngestion:
         print(f"Transformed {len(documents)} documents for ingestion.")
         return documents
 
-    def store_in_vector_db(self):
+    def store_in_vector_db(self, documents: List[Document]):
         collection_name = self.conifg["astra_db"]["collection_name"]
         vstore = AstraDBVectorStore(
             embedding=self.model_loader.load_embeddings(),
@@ -100,7 +100,7 @@ class DataIngestion:
             namespace=self.astra_db_keyspace
         )
         
-        inserted_ids = vstore.add_documents(self.transform_data())
+        inserted_ids = vstore.add_documents(documents)
         print(f"Inserted {len(inserted_ids)} documents into AstraDB collection '{collection_name}'.")
         return vstore, inserted_ids
     

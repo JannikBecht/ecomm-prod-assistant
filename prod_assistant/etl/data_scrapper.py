@@ -58,7 +58,7 @@ class FlipkartScraper:
 
 
 
-    def scrape_flipkart_product(self, query, max_products=1, review_count=2):
+    def scrape_flipkart_products(self, query, max_products=1, review_count=2):
         options = uc.ChromeOptions()
         driver = uc.Chrome(options=options, use_subprocess=True)
         search_url = f"https://www.flipkart.com/search?q={query.replace(' ', '+')}"
@@ -94,8 +94,8 @@ class FlipkartScraper:
             top_reviews = self.get_top_reviews(product_link, count=review_count)
             products.append([product_id, title, rating, total_reviews, price, top_reviews])
 
-            driver.quit()
-            return products
+        driver.quit()
+        return products
 
     def save_to_csv(self, data, filename="product_reviews.csv"):
         if os.path.isabs(filename):
