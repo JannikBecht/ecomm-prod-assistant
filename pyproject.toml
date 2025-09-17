@@ -18,7 +18,7 @@ dependencies = [
 ]
 
 # Optional: authors, license
-authors = [{ name = "Sunny Savita" }]
+authors = [{ name = "Jannik Becht" }]
 license = { text = "Proprietary" }
 
 # Optional: CLI command (python -m pip install -e . ke baad yeh create hoga)
@@ -27,4 +27,4 @@ ecomm-assistant = "ecomm_prod_assistant.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["prod_assistant"]
-include = ["ecomm_prod_assistant*"]
+include = ["ecomm_prod_assistant*"] 
